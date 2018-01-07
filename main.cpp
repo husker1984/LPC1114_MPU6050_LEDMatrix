@@ -1,13 +1,14 @@
-//ヘッダファイル
+//header
 #include "mbed.h"
 #include "math.h"
 
-//マクロ
+
+//macro
 #define SERIAL_BAUDRATE         115200
 #define I2C_FRQ_STD             100000
 #define I2C_FRQ_HIGH            400000
 #define TIMER_INTERVAL_US       1000          //timer interval(micro sec)
-// 加速度/ジャイロセンサーの制御定数
+//ADDR for MPU-6050
 #define MPU6050_ADDR            (0x68 << 1)     // MPU-6050 device address
 #define MPU6050_SMPLRT_DIV      0x19            // MPU-6050 register address
 #define MPU6050_CONFIG          0x1A
@@ -34,7 +35,7 @@
 #define LEDMTX_SIZE_COL         7
 
 
-//関数
+//func
 void timer_IRQHandler(void);
 void mpu6050_init(void);
 void mpu6050_write(char addr, char data);
@@ -42,7 +43,7 @@ uint8_t mpu6050_read(char reg);
 void ledmatrix_init(void);
 
 
-//クラス
+//class
 Ticker timer;
 Serial pc(USBTX, USBRX);
 I2C i2c(dip5, dip27);
@@ -69,7 +70,7 @@ DigitalOut  led_cols[LEDMTX_SIZE_COL]  = {//COL=カソード
 };
 
 
-//グローバル変数
+//global vals
 int flip = 0, flip_last = 0;
 // Specify sensor full scale
 enum Ascale {
@@ -110,7 +111,7 @@ int main(){
     //初期化
     pc.baud(SERIAL_BAUDRATE);
     i2c.frequency(I2C_FRQ_STD);
-//    mpu6050_init();
+    mpu6050_init();
     ledmatrix_init();
 
     //タイマー割込み開始
